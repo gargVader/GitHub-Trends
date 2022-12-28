@@ -1,6 +1,7 @@
 package com.example.githubtrends.data.repository
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import com.example.githubtrends.data.local.RepoDatabase
 import com.example.githubtrends.data.model.Repo
@@ -31,20 +32,20 @@ class RepoRepositoryImpl @Inject constructor(
         return flow {
             emit(Resource.Loading(isLoading = true))
 
-            val cacheExpired = hasCacheExpiredOrNotAvailable()
-            if (!cacheExpired) {
-                val localRepoList = dao.getAllRepos()
-                emit(Resource.Success(data = localRepoList))
-                emit(Resource.Loading(isLoading = false))
-                return@flow
-            }
+//            val cacheExpired = hasCacheExpiredOrNotAvailable()
+//            if (!cacheExpired) {
+//                val localRepoList = dao.getAllRepos()
+//                emit(Resource.Success(data = localRepoList))
+//                emit(Resource.Loading(isLoading = false))
+//                return@flow
+//            }
 
             val remoteRepoList = try {
                 // Repo push date should not be older than 2 days
                 val date = LocalDateTime.now().minusDays(2).format(
                     DateTimeFormatter.ofPattern("yyyy-MM-dd")
                 )
-                val response = api.getAllRepos(date = date)
+                val response = api.getAllRepos(getFullUrl(date))
                 response.items
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -56,11 +57,16 @@ class RepoRepositoryImpl @Inject constructor(
                 dao.clearRepoList()
                 dao.insertRepoList(remoteRepoList)
                 dataStoreUtil.saveApiCallTimestamp(System.currentTimeMillis())
+                Log.d("Girish", "getAllRepos: $remoteRepoList")
                 emit(Resource.Success(data = remoteRepoList))
             }
             emit(Resource.Loading(isLoading = false))
         }
 
+    }
+
+    private fun getFullUrl(date: String): String {
+        return "https://api.github.com/search/repositories?sort=stars&q=+language:kotlin&pushed:>$date"
     }
 
     override suspend fun getRepoInfo(id: Long): Flow<Resource<Repo>> {

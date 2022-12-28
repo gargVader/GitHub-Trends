@@ -17,6 +17,8 @@ data class Repo(
     @PrimaryKey
     @field:Json(name = "id")
     val id: Long,
+    @field:Json(name = "name")
+    val name: String,
     @field:Json(name = "description")
     val description: String,
     @field:Json(name = "stargazers_count")

@@ -29,7 +29,9 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesRepoDatabase(app: Application): RepoDatabase {
+    fun providesRepoDatabase(
+        app: Application
+    ): RepoDatabase {
         return Room.databaseBuilder(
             app,
             RepoDatabase::class.java, "repo_db"
