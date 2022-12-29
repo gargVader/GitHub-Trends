@@ -78,6 +78,7 @@ class RepoRepositoryImpl @Inject constructor(
             } else {
                 emit(Resource.Error(message = "Error. Repo couldn't be found"))
             }
+            emit(Resource.Loading(isLoading = false))
         }
     }
 

@@ -26,7 +26,7 @@ class RepoDetailsViewModel @Inject constructor(
         getRepoInfo()
     }
 
-    private fun getRepoInfo() {
+    fun getRepoInfo() {
         viewModelScope.launch {
             val repoId = savedStateHandle.get<Long>(ARG_REPO_ID) ?: return@launch
             repository.getRepoInfo(repoId).collect { result ->

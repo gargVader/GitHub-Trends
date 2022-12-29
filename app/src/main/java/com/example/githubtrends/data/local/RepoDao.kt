@@ -17,7 +17,7 @@ interface RepoDao {
     @Query("DELETE FROM repo")
     suspend fun clearRepoList()
 
-    @Query("SELECT * FROM repo")
+    @Query("SELECT * FROM repo ORDER BY stars DESC")
     suspend fun getAllRepos() : List<Repo>
 
     @Query("SELECT * FROM repo WHERE id LIKE :id")
