@@ -6,6 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.githubtrends.presentation.repo_details.RepoDetailsScreen
 import com.example.githubtrends.presentation.repo_listings.RepoListingsScreen
 
 @Composable
@@ -31,8 +32,8 @@ fun NavGraph(navController: NavHostController) {
                 }
             )
         ){
-            val repoId = it.arguments?.get(ARG_REPO_ID) as Long
-
+//            val repoId = it.arguments?.get(ARG_REPO_ID) as Long
+            RepoDetailsScreen()
         }
 
     }

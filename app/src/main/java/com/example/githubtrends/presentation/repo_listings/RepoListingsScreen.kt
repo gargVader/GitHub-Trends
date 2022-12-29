@@ -1,5 +1,6 @@
 package com.example.githubtrends.presentation.repo_listings
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -7,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.example.githubtrends.presentation.navigation.Screen
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
@@ -26,7 +28,9 @@ fun RepoListingsScreen(
                 .fillMaxSize()
         ) {
             items(state.repoList) { it ->
-                RepoItem(repo = it)
+                RepoItem(repo = it, modifier = Modifier.clickable(enabled = true) {
+                    navController.navigate(Screen.RepoDetailsScreen.route + "/" + it.id)
+                })
             }
         }
 

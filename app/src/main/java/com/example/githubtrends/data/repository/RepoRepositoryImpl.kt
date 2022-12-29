@@ -32,13 +32,13 @@ class RepoRepositoryImpl @Inject constructor(
         return flow {
             emit(Resource.Loading(isLoading = true))
 
-//            val cacheExpired = hasCacheExpiredOrNotAvailable()
-//            if (!cacheExpired) {
-//                val localRepoList = dao.getAllRepos()
-//                emit(Resource.Success(data = localRepoList))
-//                emit(Resource.Loading(isLoading = false))
-//                return@flow
-//            }
+            val cacheExpired = hasCacheExpiredOrNotAvailable()
+            if (!cacheExpired) {
+                val localRepoList = dao.getAllRepos()
+                emit(Resource.Success(data = localRepoList))
+                emit(Resource.Loading(isLoading = false))
+                return@flow
+            }
 
             val remoteRepoList = try {
                 // Repo push date should not be older than 2 days
